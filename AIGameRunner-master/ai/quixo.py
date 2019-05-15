@@ -53,7 +53,7 @@ class Server:
             total0 = 0
             total1 = 0
             for x in t:
-                if x == "None":
+                if x == None:
                     pass
                 if  x == 0 : 
                     total0 += 1
@@ -115,7 +115,7 @@ class Server:
     def getFreeCubes(self,cubes):
         freecubes = []
         for cube in cubes: 
-            if cube.value == "None": # si le cube est libre
+            if cube.value == None: # si le cube est libre
                 if cube.position in [0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24] :
                     freecubes.append(cube)
         return freecubes
