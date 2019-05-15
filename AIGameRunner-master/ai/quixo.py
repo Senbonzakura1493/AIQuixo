@@ -281,7 +281,7 @@ class Server:
         self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
  
-        ################# IA ###########################################
+        ############################## IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
             horizontal =[]
             vertical =[]
@@ -387,9 +387,7 @@ class Server:
                 self.game[newPos] = 0
 
         self.moves.append(movement) # add movement to moves
-
-        
-
+        #make recursively moves according to new state
         #self.move() not working yet need the basic case
         
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
