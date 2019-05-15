@@ -5,10 +5,11 @@ Ben Moussa Fatine 14354
  
 Le meilleur coup à jouer est défini comme étant : 
 
-    - Soit le coup me permettant d'augmenter mes chances d'arriver à un 5.
+- Soit le coup me permettant d'augmenter mes chances d'arriver à un 5.
 
-    -Soit le coup me permettant de bloquer la progression de l'ennemi. 
-    Celui ci ayant un nombre de cubes maximal lui appartenant sur une ligne , colonne ou diagonale supérieure au nombre maximal que je possède sur une ligne,colonne ou diagonale. 
+-Soit le coup me permettant de bloquer la progression de l'ennemi. 
+Celui ci ayant un nombre de cubes maximal lui appartenant sur une ligne , colonne ou diagonale supérieure au nombre maximal que je possède sur une ligne,</br>
+colonne ou diagonale. 
 
 Algotithme est le suivant : 
 
