@@ -249,6 +249,10 @@ class Server:
                         cube.value = value
                         return {'cube' : cube.position,
                                 'direction' : direction} 
+        
+
+
+
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -274,7 +278,6 @@ class Server:
 
         # AI #
         # Je récupère la plus grande valeur et la ligne , colone, ou de cette plus grande valeur
-       
         if body['players'][0] == body['you']: # in case of you 
             horizontal =[]
             vertical =[]
@@ -306,6 +309,7 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
 
+            #Movement pour augmenter la plus grande valeur
             movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
 
 
@@ -339,19 +343,9 @@ class Server:
                 self.maximumPos = maximum2Pos
             if maximumdirection == 2 :
                 self.maximumPos = maximum3Pos
-        
-        # Si je peux augmenter, je le fais.
-        
 
-        # Si le joueur adverse peut former un 5. 
-        # Si je peux le bloquer , je joue le jeu qui le bloque.
-        # Sinon un des trois déplacements possibles augmente la plus grosse somme pour moi , je joue le coup.
-        # Sinon je joue le coup qui bloque la plus grosse valeur de l'adversaire.
-    
-    
-        #cubesTest= []
-        #for cube in self.freecubes : 
-            #cubesTest.append(cube.position)
+            movement = self.movement(maximumdirection,maximumPos,self.freecubes,1)
+        
             
         return {"move": movement}
 
