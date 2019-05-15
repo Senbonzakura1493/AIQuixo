@@ -121,6 +121,24 @@ class Server:
                     freecubes.append(cube)
         return freecubes
 
+
+    def movement(self,maximumdirection,maximumPos,freeCubes):
+        if maximumDirection == 0 : 
+            if maximumPos ==0:
+                
+            if maximumPos ==1:
+            if maximumPos ==2:
+            if maximumPos ==3:
+            if maximumPos ==4:
+            pass
+        if maximumDirection == 1 : 
+            pass
+        if maximumDirection == 2 :
+            pass
+
+
+
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -135,7 +153,6 @@ class Server:
         body = cherrypy.request.json
         print(body)
 
-
         self.cubes = self.createCubes(body['game']) # generate all the cubes
         
         self.players = self.createPlayers(self.cubes,body['players']) # generate the players with their occupied cubes
@@ -144,15 +161,84 @@ class Server:
         
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
 
+        # AI #
+        # Je récupère la plus grande valeur et la ligne , colone, ou de cette plus grande valeur
+       
+        if body['players'][0] == body['you']: # in case of you 
+            horizontal =[]
+            vertical =[]
+            diagonal =[]
+            for results in sums['horizontal']:
+                horizontal.append(results[0])
+            maximum1 = max(horizontal)
+            maximum1Pos = horizontal.index(maximum1)
 
-        #Main AI functions#
+            for results in sums['vertical']:
+                vertical.append(results[0])
+            maximum2 = max(vertical)
+            maximum2Pos = vertical.index(maximum2)
 
-        freecubesPos =[]
-        for cube in freecubes:
-            freecubesPos.append(cube.position)
+            for results in sums['diagonal']:
+                diagonal.append(results[0])
+            maximum3 = max(diagonal)
+            maximum3Pos = diagonal.index(maximum3)
+
+            listMaxima = [maximum1,maximum2,maximum3]
+            maximumvalue = max(listMaxima)
+            maximumdirection = listMaxima.index(maximumvalue) # 0-Horizontal , 1-Vertical, 2-Diagonal
+            
+            # maximumPos gives the index of line , col or diag containing the max
+            if maximumdirection == 0 :
+                maximumPos = maximum1Pos
+            if maximumdirection == 1 :
+                maximumPos = maximum2Pos
+            if maximumdirection == 2 :
+                maximumPos = maximum3Pos
+
+        if body['players'][1] == body['you']: # in case of second player
+            horizontal =[]
+            vertical =[]
+            diagonal =[]
+            for results in sums['horizontal']:
+                horizontal.append(results[1])
+            maximum1 = max(horizontal)
+            maximum1Pos = horizontal.index(maximum1)
+
+            for results in sums['vertical']:
+                vertical.append(results[1])
+            maximum2 = max(vertical)
+            maximum2Pos = vertical.index(maximum2)
+
+            for results in sums['diagonal']:
+                diagonal.append(results[1])
+            maximum3 = max(diagonal)
+            maximum3Pos = diagonal.index(maximum3)
+
+            listMaxima = [maximum1,maximum2,maximum3]
+            self.maximumvalue = max(listMaxima)
+            self.maximumdirection = listMaxima.index(maximumvalue) # 0-Horizontal , 1-Vertical, 2-Diagonal
+            
+            # maximumPos gives the index of line , col or diag containing the max
+            if maximumdirection == 0 :
+                self.maximumPos = maximum1Pos
+            if maximumdirection == 1 :
+                self.maximumPos = maximum2Pos
+            if maximumdirection == 2 :
+                self.maximumPos = maximum3Pos
+        
+        # Si je peux augmenter, je le fais.
+        
+            
 
 
-        return {"move": freecubesPos}
+
+        # Si le joueur adverse peut former un 5. 
+        # Si je peux le bloquer , je joue le jeu qui le bloque.
+        # Sinon un des trois déplacements possibles augmente la plus grosse somme pour moi , je joue le coup.
+        # Sinon je joue le coup qui bloque la plus grosse valeur de l'adversaire.
+    
+
+        return {"move": (maximumvalue,maximumdirection,maximumPos)}
 
 
 
