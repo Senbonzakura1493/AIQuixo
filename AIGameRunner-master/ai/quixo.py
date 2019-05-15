@@ -389,7 +389,7 @@ class Server:
                 self.game[newPos] = 0
 
         self.moves.append(movement) # add movement to moves
-        self.move()
+        #self.move()
 
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
 

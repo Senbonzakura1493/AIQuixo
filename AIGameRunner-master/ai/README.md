@@ -35,4 +35,4 @@ Algotithme est le suivant :
 
 La route move renvoie une réponse formatter comme demandée dans l'énoncé , le message indique si on effectue un mouvement bloquant l'ennemi ou maximisant notre valeur. 
 
-NB : récursion à implémenter
+NB : need to debug to stop the recursion 
