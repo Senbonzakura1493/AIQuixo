@@ -28,3 +28,9 @@ Algotithme est le suivant :
 4. Comparer les deux valeurs.</br> 
     -Si la valeur du joueur est supérieure à celle de l'ennemie, on joue le coup qui augmente maximum existant. On verifie les freecubes qu'on a récupéré à partir de l'état du jeu, les cubes encore neutres et on joue le cube neutre satisfaisant notre condition.</br>
     -Si la valeur de l'ennemie est supérieure à celle du joueur , on joue le coup qui empèche l'ennemie d'augmenter cette valeur.On verifie les freecubes qu'on a récupéré à partir de l'état du jeu , les cubes encore neutres et on joue le cube neutre satisfaisant notre condition.
+
+    -Ajout du mouvement dans moves et mise à jour de l'état du jeu
+
+## reponse de la route move ##
+
+La route move renvoie une réponse formatter comme demandée dans l'énoncé , le message indique si on effectue un mouvement bloquant l'ennemi ou maximisant notre valeur. 

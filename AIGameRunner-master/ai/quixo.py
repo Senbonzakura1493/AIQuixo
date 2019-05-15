@@ -133,6 +133,7 @@ class Server:
                         if cube.position == 4 :
                             direction ='W'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 1:
@@ -143,6 +144,7 @@ class Server:
                         if cube.position == 9 :
                             direction ='W'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 2:
@@ -153,6 +155,7 @@ class Server:
                         if cube.position == 14 :
                             direction ='W'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 3:
@@ -163,6 +166,7 @@ class Server:
                         if cube.position == 19 :
                             direction ='W'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 4:
@@ -186,6 +190,7 @@ class Server:
                         if cube.position == 4 :
                             direction ='N'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 1:
@@ -196,6 +201,7 @@ class Server:
                         if cube.position == 21 :
                             direction ='N'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 2:
@@ -206,6 +212,7 @@ class Server:
                         if cube.position == 22 :
                             direction ='N'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 3:
@@ -216,6 +223,7 @@ class Server:
                         if cube.position == 23 :
                             direction ='N'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 4:
@@ -226,6 +234,7 @@ class Server:
                         if cube.position == 24 :
                             direction ='N'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
         if maximumDirection == 2 : # diagonal
@@ -237,6 +246,7 @@ class Server:
                         if cube.position == 4 :
                             direction ='S'
                         cube.value = value
+                        
                         return {'cube' : cube.position,
                                 'direction' : direction} 
             if maximumPos == 1:#deuxieme diag
@@ -253,6 +263,7 @@ class Server:
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
+
     def move(self):
         # Deal with CORS
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
@@ -264,12 +275,11 @@ class Server:
         body = cherrypy.request.json
         print(body)
 
-        self.cubes = self.createCubes(body['game']) # generate all the cubes
-        
+        self.game = body['game']
+        self.cubes = self.createCubes(self.game) # generate all the cubes
         self.players = self.createPlayers(self.cubes,body['players']) # generate the players with their occupied cubes
-        
-        self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes
-        
+        self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes 
+        self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
 
         ################# IA ###########################################
@@ -303,9 +313,8 @@ class Server:
                 maximumPos = maximum2Pos
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
-
             
-
+   
         if body['players'][1] != body['you']: # in case of enemy
             horizontal2 =[]
             vertical2 =[]
@@ -338,17 +347,47 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos2 = maximum6Pos
 
-            message =''
-            if maximumvalue > maximumvalue2 :
-                message = 'maximizing my chance to win'
-                #Movement to maximise my sum on the wanted direction
-                movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
-            else :
-                message = 'blocking enemy progression'
-                #Movement to stop the progression of my enemy
-                movement = self.movement(maximumdirection2,maximumPos2,self.freecubes,0)
+        message =''
+        if maximumvalue > maximumvalue2 :
+            message = 'maximizing my chance to win'
+            #Movement to maximise my sum on the wanted direction
+            movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
+            #update game state
+            if movement['direction']=='W':
+                newPos = movement['cube']- 4 
+                self.game[newPos] = 0
+            if movement['direction']=='E':
+                newPos = movement['cube']+ 4 
+                self.game[newPos] = 0
+            if movement['direction']=='S':
+                newPos = movement['cube']+ 20 
+                self.game[newPos] = 0
+            if movement['direction']=='N':
+                newPos = movement['cube']- 20 
+                self.game[newPos] = 0
+        else :
+            message = 'blocking enemy progression'
+            #Movement to stop the progression of my enemy
+            movement = self.movement(maximumdirection2,maximumPos2,self.freecubes,0)
 
-        return {"move": movement,"message" : message }
+            #Update game state
+            if movement['direction']=='W':
+                newPos = movement['cube']- 4 
+                self.game[newPos] = 0
+            if movement['direction']=='E':
+                newPos = movement['cube']+ 4 
+                self.game[newPos] = 0
+            if movement['direction']=='S':
+                newPos = movement['cube']+ 20 
+                self.game[newPos] = 0
+            if movement['direction']=='N':
+                newPos = movement['cube']- 20 
+                self.game[newPos] = 0
+
+
+        self.moves.append(movement) # add movement to moves
+        
+        return {"move": movement,"message" : message} # retrun the json response 
 
 
 if __name__ == "__main__":
