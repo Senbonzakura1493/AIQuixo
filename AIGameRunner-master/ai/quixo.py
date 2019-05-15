@@ -262,7 +262,6 @@ class Server:
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
-
     def move(self):
         # Deal with CORS
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
@@ -388,6 +387,7 @@ class Server:
 
         self.moves.append(movement) # add movement to moves
         #make recursively moves according to new state
+
         #self.move() not working yet need the basic case
         
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
