@@ -31,8 +31,12 @@ Algotithme est le suivant :
 
     -Ajout du mouvement dans moves et mise à jour de l'état du jeu
 
-## reponse de la route move ##
+## réponse de la route move ##
 
 La route move renvoie une réponse formatter comme demandée dans l'énoncé , le message indique si on effectue un mouvement bloquant l'ennemi ou maximisant notre valeur. 
 
-NB : need to debug to stop the recursion 
+## Etat du projet ##
+
+Besoin de construire la boucle récursive , pour le moment il ne se passe qu'une seule itération. 
+
+Besoin de refactorer.
