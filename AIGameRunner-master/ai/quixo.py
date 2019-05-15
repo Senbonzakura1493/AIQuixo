@@ -122,11 +122,10 @@ class Server:
         return freecubes
 
 
-    def movement(self,maximumdirection,maximumPos,freeCvalue):
+    def movement(self,maximumdirection,maximumPos,freecubes,value):
         if maximumdirection == 0 : 
             if maximumPos ==0:
-                #on est a la premiere ligne 
-                #on verifie si les blocs aux extrémités sont libres 
+                #first line
                 for cube in freecubes:
                     if cube.position in [0,4]:
                         if cube.position == 0 :
@@ -179,8 +178,7 @@ class Server:
                                 'direction' : direction} 
         if maximumDirection == 1 : # vertical
             if maximumPos ==0:
-                #on est a la premiere colone
-                #on verifie si les blocs aux extrémités sont libres 
+                #first column 
                 for cube in freecubes:
                     if cube.position in [0,10]:
                         if cube.position == 0 :
@@ -308,7 +306,7 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
 
-        
+            movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
 
 
         if body['players'][1] == body['you']: # in case of second player
@@ -350,8 +348,7 @@ class Server:
         # Sinon un des trois déplacements possibles augmente la plus grosse somme pour moi , je joue le coup.
         # Sinon je joue le coup qui bloque la plus grosse valeur de l'adversaire.
     
-        
-        movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
+    
         #cubesTest= []
         #for cube in self.freecubes : 
             #cubesTest.append(cube.position)
