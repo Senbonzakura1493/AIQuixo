@@ -122,22 +122,135 @@ class Server:
         return freecubes
 
 
-    def movement(self,maximumdirection,maximumPos,freeCubes):
-        if maximumDirection == 0 : 
+    def movement(self,maximumdirection,maximumPos,freeCvalue):
+        if maximumdirection == 0 : 
             if maximumPos ==0:
-                
-            if maximumPos ==1:
-            if maximumPos ==2:
-            if maximumPos ==3:
-            if maximumPos ==4:
-            pass
-        if maximumDirection == 1 : 
-            pass
-        if maximumDirection == 2 :
-            pass
-
-
-
+                #on est a la premiere ligne 
+                #on verifie si les blocs aux extrémités sont libres 
+                for cube in freecubes:
+                    if cube.position in [0,4]:
+                        if cube.position == 0 :
+                            direction = 'E'
+                        if cube.position == 4 :
+                            direction ='W'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 1:
+                for cube in freecubes:
+                    if cube.position in [5,9]:
+                        if cube.position == 5 :
+                            direction = 'E'
+                        if cube.position == 9 :
+                            direction ='W'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 2:
+                for cube in freecubes:
+                    if cube.position in [10,14]:
+                        if cube.position == 10 :
+                            direction = 'E'
+                        if cube.position == 14 :
+                            direction ='W'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 3:
+                for cube in freecubes:
+                    if cube.position in [15,19]:
+                        if cube.position == 15 :
+                            direction = 'E'
+                        if cube.position == 19 :
+                            direction ='W'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 4:
+                for cube in freecubes:
+                    if cube.position in [20,24]:
+                        if cube.position == 20 :
+                            direction = 'E'
+                        if cube.position == 24 :
+                            direction ='W'
+                        cube.value = value
+             
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+        if maximumDirection == 1 : # vertical
+            if maximumPos ==0:
+                #on est a la premiere colone
+                #on verifie si les blocs aux extrémités sont libres 
+                for cube in freecubes:
+                    if cube.position in [0,10]:
+                        if cube.position == 0 :
+                            direction = 'S'
+                        if cube.position == 4 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 1:
+                for cube in freecubes:
+                    if cube.position in [1,21]:
+                        if cube.position == 1 :
+                            direction = 'S'
+                        if cube.position == 21 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 2:
+                for cube in freecubes:
+                    if cube.position in [2,22]:
+                        if cube.position == 2 :
+                            direction = 'S'
+                        if cube.position == 22 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 3:
+                for cube in freecubes:
+                    if cube.position in [3,23]:
+                        if cube.position == 3 :
+                            direction = 'S'
+                        if cube.position == 23 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 4:
+                for cube in freecubes:
+                    if cube.position in [4,24]:
+                        if cube.position == 4 :
+                            direction = 'S'
+                        if cube.position == 24 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+        if maximumDirection == 2 : # diagonal
+            if maximumPos ==0:# premiere diag
+                for cube in freecubes:
+                    if cube.position in [10,4]:
+                        if cube.position == 10 :
+                            direction = 'N'
+                        if cube.position == 4 :
+                            direction ='S'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
+            if maximumPos == 1:#deuxieme diag
+                for cube in freecubes:
+                    if cube.position in [0,24]:
+                        if cube.position == 0 :
+                            direction = 'S'
+                        if cube.position == 24 :
+                            direction ='N'
+                        cube.value = value
+                        return {'cube' : cube.position,
+                                'direction' : direction} 
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -157,7 +270,7 @@ class Server:
         
         self.players = self.createPlayers(self.cubes,body['players']) # generate the players with their occupied cubes
         
-        freecubes = self.getFreeCubes(self.cubes) # get all the free cubes
+        self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes
         
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
 
@@ -195,6 +308,9 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
 
+        
+
+
         if body['players'][1] == body['you']: # in case of second player
             horizontal =[]
             vertical =[]
@@ -228,17 +344,19 @@ class Server:
         
         # Si je peux augmenter, je le fais.
         
-            
-
-
 
         # Si le joueur adverse peut former un 5. 
         # Si je peux le bloquer , je joue le jeu qui le bloque.
         # Sinon un des trois déplacements possibles augmente la plus grosse somme pour moi , je joue le coup.
         # Sinon je joue le coup qui bloque la plus grosse valeur de l'adversaire.
     
-
-        return {"move": (maximumvalue,maximumdirection,maximumPos)}
+        
+        movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
+        #cubesTest= []
+        #for cube in self.freecubes : 
+            #cubesTest.append(cube.position)
+            
+        return {"move": movement}
 
 
 
