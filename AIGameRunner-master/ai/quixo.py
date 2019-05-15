@@ -282,7 +282,7 @@ class Server:
         self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes 
         self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
-
+ 
 
         ################# IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
@@ -352,6 +352,7 @@ class Server:
             message = 'maximizing my chance to win'
             if maximumvalue == 4 :
                 message = 'movement makes you win!'
+                
             #Movement to maximise my sum on the wanted direction
             movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
             #update game state
@@ -389,6 +390,7 @@ class Server:
                 self.game[newPos] = 0
 
         self.moves.append(movement) # add movement to moves
+
         #self.move()
 
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
