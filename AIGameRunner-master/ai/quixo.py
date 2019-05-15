@@ -279,8 +279,8 @@ class Server:
         self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes 
         self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
- 
-        ############################## IA ###########################################
+
+        #################################### IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
             horizontal =[]
             vertical =[]
@@ -348,7 +348,6 @@ class Server:
             message = 'maximizing my chance to win'
             if maximumvalue == 4 :
                 message = 'movement makes you win!'
-
             #Movement to maximise my sum on the wanted direction
             movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
             #update game state
@@ -385,11 +384,12 @@ class Server:
                 newPos = movement['cube']- 20 
                 self.game[newPos] = 0
 
-        self.moves.append(movement) # add movement to moves
+        self.moves.append(movement) #add movement to moves
         #make recursively moves according to new state
+        #self.freecubes = self.getFreeCubes(self.cubes) # get all new the free cubes 
+        #sums = self.makeTheSums(self.cubes) 
+        #newmovement = self.move() #not working yet need the basic case
 
-        #self.move() not working yet need the basic case
-        
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
 
 
@@ -399,5 +399,5 @@ if __name__ == "__main__":
     else:
         port=8000
 
-    cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': port})
+    cherrypy.config.update({'server.socket_host': '0.0.0.0', 'server.socket_port': port})
     cherrypy.quickstart(Server())
