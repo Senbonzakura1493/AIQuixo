@@ -122,7 +122,7 @@ class Server:
         return freecubes
 
 
-    def movement(self,maximumdirection,maximumPos,freecubes,value):
+    def movement(self,maximumdirection,maximumPos,freecubes,value,message):
         if maximumdirection == 0 : 
             if maximumPos ==0:
                 #first line
@@ -134,7 +134,8 @@ class Server:
                             direction ='W'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 1:
                 for cube in freecubes:
                     if cube.position in [5,9]:
@@ -144,7 +145,8 @@ class Server:
                             direction ='W'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 2:
                 for cube in freecubes:
                     if cube.position in [10,14]:
@@ -154,7 +156,8 @@ class Server:
                             direction ='W'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 3:
                 for cube in freecubes:
                     if cube.position in [15,19]:
@@ -164,7 +167,8 @@ class Server:
                             direction ='W'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 4:
                 for cube in freecubes:
                     if cube.position in [20,24]:
@@ -175,7 +179,8 @@ class Server:
                         cube.value = value
              
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
         if maximumDirection == 1 : # vertical
             if maximumPos ==0:
                 #first column 
@@ -187,7 +192,8 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 1:
                 for cube in freecubes:
                     if cube.position in [1,21]:
@@ -197,7 +203,8 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 2:
                 for cube in freecubes:
                     if cube.position in [2,22]:
@@ -207,7 +214,8 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 3:
                 for cube in freecubes:
                     if cube.position in [3,23]:
@@ -217,7 +225,8 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 4:
                 for cube in freecubes:
                     if cube.position in [4,24]:
@@ -227,7 +236,8 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
         if maximumDirection == 2 : # diagonal
             if maximumPos ==0:# premiere diag
                 for cube in freecubes:
@@ -238,7 +248,8 @@ class Server:
                             direction ='S'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
+                                'direction' : direction,
+                                'message' : message} 
             if maximumPos == 1:#deuxieme diag
                 for cube in freecubes:
                     if cube.position in [0,24]:
@@ -248,8 +259,9 @@ class Server:
                             direction ='N'
                         cube.value = value
                         return {'cube' : cube.position,
-                                'direction' : direction} 
-        
+                                'direction' : direction,
+                                'message' : message} 
+
 
 
 
@@ -276,8 +288,7 @@ class Server:
         
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
 
-        # AI #
-        # Je récupère la plus grande valeur et la ligne , colone, ou de cette plus grande valeur
+        ################# IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
             horizontal =[]
             vertical =[]
@@ -309,49 +320,52 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
 
-            #Movement pour augmenter la plus grande valeur
-            movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
+            
 
-
-        if body['players'][1] == body['you']: # in case of second player
-            horizontal =[]
-            vertical =[]
-            diagonal =[]
+        if body['players'][1] != body['you']: # in case of enemy
+            horizontal2 =[]
+            vertical2 =[]
+            diagonal2 =[]
             for results in sums['horizontal']:
-                horizontal.append(results[1])
-            maximum1 = max(horizontal)
-            maximum1Pos = horizontal.index(maximum1)
+                horizontal2.append(results[1])
+            maximum4 = max(horizontal2)
+            maximum4Pos = horizontal2.index(maximum4)
 
             for results in sums['vertical']:
-                vertical.append(results[1])
-            maximum2 = max(vertical)
-            maximum2Pos = vertical.index(maximum2)
+                vertical2.append(results[1])
+            maximum5 = max(vertical2)
+            maximum5Pos = vertical2.index(maximum5)
 
             for results in sums['diagonal']:
-                diagonal.append(results[1])
-            maximum3 = max(diagonal)
-            maximum3Pos = diagonal.index(maximum3)
+                diagonal2.append(results[1])
+            maximum6 = max(diagonal2)
+            maximum6Pos = diagonal2.index(maximum6)
 
-            listMaxima = [maximum1,maximum2,maximum3]
-            self.maximumvalue = max(listMaxima)
-            self.maximumdirection = listMaxima.index(maximumvalue) # 0-Horizontal , 1-Vertical, 2-Diagonal
+            listMaxima2 = [maximum4,maximum5,maximum6]
+
+            maximumvalue2 = max(listMaxima2)
+            maximumdirection2 = listMaxima2.index(maximumvalue2) # 0-Horizontal , 1-Vertical, 2-Diagonal
             
             # maximumPos gives the index of line , col or diag containing the max
-            if maximumdirection == 0 :
-                self.maximumPos = maximum1Pos
-            if maximumdirection == 1 :
-                self.maximumPos = maximum2Pos
+            if maximumdirection2 == 0 :
+                maximumPos2 = maximum4Pos
+            if maximumdirection2 == 1 :
+                maximumPos2 = maximum5Pos
             if maximumdirection == 2 :
-                self.maximumPos = maximum3Pos
-
-            movement = self.movement(maximumdirection,maximumPos,self.freecubes,1)
-        
-            
-        return {"move": movement}
+                maximumPos2 = maximum6Pos
 
 
 
-    
+            if maximumvalue > maximumvalue2 :
+                message = 'maximizing my chance to win'
+                #Movement to maximise my sum on the wanted direction
+                movement = self.movement(maximumdirection,maximumPos,self.freecubes,0,message)
+            else :
+                message = 'blocking enemy progression'
+                #Movement to stop the progression of my enemy
+                movement = self.movement(maximumdirection2,maximumPos2,self.freecubes,0,message)
+
+        return {"move": movement }
 
 
 if __name__ == "__main__":
