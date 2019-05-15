@@ -12,10 +12,8 @@ class Player :
         self.name = name
         self.cubes = cubes
 
-    def calculateBestMove(self,sums):
-         pass
-            
 
+            
 class Server:
 
     message =''
@@ -283,7 +281,6 @@ class Server:
         self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
  
-
         ################# IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
             horizontal =[]
@@ -391,6 +388,7 @@ class Server:
 
         self.moves.append(movement) # add movement to moves
 
+        
 
         #self.move() not working yet need the basic case
         
