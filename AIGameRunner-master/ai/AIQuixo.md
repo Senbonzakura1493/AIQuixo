@@ -1,5 +1,6 @@
 ## Auteur ##
 Ben Moussa Fatine 14354
+
 ## stratégie utilisée ##
  
 Le meilleur coup à jouer est défini comme étant : 
