@@ -16,13 +16,14 @@ Algotithme est le suivant :
         </br> - sur chaque ligne.
         </br> - sur chaque colonne.
         </br> - sur chaque diagonale.
-2. Faire de même pour l'adversaire.
+    </br>
+2. Faire de même pour l'adversaire.</br>
 3. Récupérer la valeur la plus élevée pour chaque joueur.( sont également récupérées , la position et la direction des valeurs)</br>
 </br>
-    - ex : Valeur est 4 ==> sommes        maximales trouvée pour le joueur.
+    - ex : Valeur est 4 ==> somme maximale trouvée pour le joueur.
      </br>Direction est 0 ==> direction est horyzontale.</br>
      Position est 1 ==> désigne la deuxième horizontale donc la deuxième ligne.
 
 4. Comparer les deux valeurs.</br> 
-    -Si la valeur du joueur est supérieure à celle de l'ennemie, on joue le coup qui augmente maximum existant.</br>
-    -Si la valeur de l'ennemie est supérieure à celle du joueur , on joue le coup qui empèche l'ennemie d'augmenter cette valeur.
+    -Si la valeur du joueur est supérieure à celle de l'ennemie, on joue le coup qui augmente maximum existant. On verifie les freecubes qu'on a récupéré à partir de l'état du jeu, les cubes encore neutres et on joue le cube neutre satisfaisant notre condition.</br>
+    -Si la valeur de l'ennemie est supérieure à celle du joueur , on joue le coup qui empèche l'ennemie d'augmenter cette valeur.On verifie les freecubes qu'on a récupéré à partir de l'état du jeu , les cubes encore neutres et on joue le cube neutre satisfaisant notre condition.
