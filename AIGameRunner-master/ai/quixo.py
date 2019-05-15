@@ -18,6 +18,7 @@ class Player :
 
 class Server:
 
+    message =''
     #create cubes and their position according to the game
     def createCubes(self,game):
         cubes = []
@@ -269,9 +270,9 @@ class Server:
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
         cherrypy.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
         cherrypy.response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+        
         if cherrypy.request.method == "OPTIONS":
             return ''
-        
         body = cherrypy.request.json
         print(body)
 
@@ -281,6 +282,7 @@ class Server:
         self.freecubes = self.getFreeCubes(self.cubes) # get all the free cubes 
         self.moves = (body['moves'])
         sums = self.makeTheSums(self.cubes) # generate a dico with the sum of each line and row and diag
+
 
         ################# IA ###########################################
         if body['players'][0] == body['you']: # in case of you 
@@ -303,6 +305,7 @@ class Server:
             maximum3Pos = diagonal.index(maximum3)
 
             listMaxima = [maximum1,maximum2,maximum3]
+
             maximumvalue = max(listMaxima)
             maximumdirection = listMaxima.index(maximumvalue) # 0-Horizontal , 1-Vertical, 2-Diagonal
             
@@ -313,9 +316,7 @@ class Server:
                 maximumPos = maximum2Pos
             if maximumdirection == 2 :
                 maximumPos = maximum3Pos
-            
-   
-        if body['players'][1] != body['you']: # in case of enemy
+
             horizontal2 =[]
             vertical2 =[]
             diagonal2 =[]
@@ -347,9 +348,10 @@ class Server:
             if maximumdirection == 2 :
                 maximumPos2 = maximum6Pos
 
-        message =''
         if maximumvalue > maximumvalue2 :
             message = 'maximizing my chance to win'
+            if maximumvalue == 4 :
+                message = 'movement makes you win!'
             #Movement to maximise my sum on the wanted direction
             movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
             #update game state
@@ -367,6 +369,8 @@ class Server:
                 self.game[newPos] = 0
         else :
             message = 'blocking enemy progression'
+            if maximumvalue2 == 4 :
+                message = 'the enemy has a 4 , blocked him !'
             #Movement to stop the progression of my enemy
             movement = self.movement(maximumdirection2,maximumPos2,self.freecubes,0)
 
@@ -384,10 +388,10 @@ class Server:
                 newPos = movement['cube']- 20 
                 self.game[newPos] = 0
 
-
         self.moves.append(movement) # add movement to moves
-        
-        return {"move": movement,"message" : message} # retrun the json response 
+        self.move()
+
+        return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
 
 
 if __name__ == "__main__":
