@@ -352,7 +352,7 @@ class Server:
             message = 'maximizing my chance to win'
             if maximumvalue == 4 :
                 message = 'movement makes you win!'
-                
+
             #Movement to maximise my sum on the wanted direction
             movement = self.movement(maximumdirection,maximumPos,self.freecubes,0)
             #update game state
@@ -391,8 +391,9 @@ class Server:
 
         self.moves.append(movement) # add movement to moves
 
-        #self.move()
 
+        #self.move() not working yet need the basic case
+        
         return {"move": self.moves.pop(),"message" : message} # return the last moves json response 
 
 
